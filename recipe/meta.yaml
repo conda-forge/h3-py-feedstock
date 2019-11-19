@@ -29,7 +29,7 @@ requirements:
 
 test:
   imports:
-    - from h3 import h3
+    - tests
 
 about:
   home: https://github.com/uber/h3-py.git
