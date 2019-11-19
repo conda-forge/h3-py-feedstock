@@ -22,12 +22,14 @@ requirements:
     - pip
     - python >2.7
     - h3
+    - make
+    - cmake
   run:
     - python >2.7
 
 test:
   imports:
-    - h3
+    - from h3 import h3
 
 about:
   home: https://github.com/uber/h3-py.git
