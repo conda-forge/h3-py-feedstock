@@ -10,22 +10,21 @@ source:
   sha256: a292a5a63bcf535f0137141019f3defd21ad2fbd258dc8de587f921cf2c5b41d
   patches:
     # patch to override setup.py to use the conda distribution of H3 
-    - setup.patch
+    - setup_install.patch
 
 build:
-  noarch: python
-  number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  number: 1
+  script:
+    - "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
   host:
     - pip
     - python >2.7
     - h3
-    - make
-    - cmake
   run:
     - python >2.7
+    - h3
 
 test:
   commands:
