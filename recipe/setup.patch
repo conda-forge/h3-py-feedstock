@@ -21,7 +21,7 @@ index 18cf168..fa73598 100644
                if platform.system() == 'Darwin' else (
 -              '{}/{}'.format(_dirname, 'out/h3.dll') if platform.system() == 'Windows' else
 -              '{}/{}'.format(_dirname, 'out/libh3.so.1')))
-+              '{}/{}'.format(_dirname, 'h3.dll') if platform.system() == 'Windows' else
++              '{}/{}'.format(_dirname, 'h3.lib') if platform.system() == 'Windows' else
 +              '{}/{}'.format(_dirname, 'libh3.so.1')))
  
  libh3 = cdll.LoadLibrary(libh3_path)
