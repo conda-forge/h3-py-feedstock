@@ -13,7 +13,7 @@ source:
     - setup.patch
 
 build:
-  noarch: python
+  #noarch: python
   number: 0
   script: {{ PYTHON }} -m pip install . -vv
 
