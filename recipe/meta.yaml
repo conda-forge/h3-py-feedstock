@@ -28,6 +28,8 @@ requirements:
 test:
   imports:
     - h3.h3
+  requires:
+    - h3
 
 about:
   home: https://github.com/uber/h3-py.git
