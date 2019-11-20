@@ -1,5 +1,5 @@
 diff --git a/h3/h3.py b/h3/h3.py
-index 18cf168..56085a8 100644
+index 18cf168..d2dfb2b 100644
 --- a/h3/h3.py
 +++ b/h3/h3.py
 @@ -20,6 +20,7 @@ from __future__ import absolute_import
@@ -21,7 +21,7 @@ index 18cf168..56085a8 100644
                if platform.system() == 'Darwin' else (
 -              '{}/{}'.format(_dirname, 'out/h3.dll') if platform.system() == 'Windows' else
 -              '{}/{}'.format(_dirname, 'out/libh3.so.1')))
-+              '{}/{}'.format(os.path.join(sys.prefix, 'library/lib'), 'h3.dll') if platform.system() == 'Windows' else
++              '{}/{}'.format(os.path.join(sys.prefix, 'Library/lib'), 'h3.dll') if platform.system() == 'Windows' else
 +              '{}/{}'.format(_dirname, 'libh3.so.1')))
  
  libh3 = cdll.LoadLibrary(libh3_path)
