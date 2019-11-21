@@ -9,11 +9,11 @@ source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: a292a5a63bcf535f0137141019f3defd21ad2fbd258dc8de587f921cf2c5b41d
   patches:
-    # patch to override setup.py and h3.py to load shared libraries from conda distribution of H3
-    - setup_h3.patch
+    # patch to override setup.py and h3.py to load dynamic libraries from conda distribution of H3
+    - load_from_dynamic_libraries.patch
 
 build:
-  number: 1
+  number: 2
   skip: True  # [win]
   script: {{ PYTHON }} -m pip install . -vv
 
