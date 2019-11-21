@@ -10,12 +10,12 @@ source:
   sha256: a292a5a63bcf535f0137141019f3defd21ad2fbd258dc8de587f921cf2c5b41d
   patches:
     # patch to override setup.py and h3.py to load shared libraries from conda distribution of H3
-    - setup_install.patch
+    - setup_h3.patch
 
 build:
   number: 1
-  script: "{{ PYTHON }} -m pip install . -vv"
   skip: True  # [win]
+  script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:

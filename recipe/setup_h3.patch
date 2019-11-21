@@ -1,0 +1,97 @@
+diff --git a/h3/h3.py b/h3/h3.py
+index 18cf168..28cc1c8 100644
+--- a/h3/h3.py
++++ b/h3/h3.py
+@@ -20,6 +20,7 @@ from __future__ import absolute_import
+ 
+ import math
+ import os
++import sys
+ import platform
+ from ctypes import (
+     cast,
+@@ -34,11 +35,13 @@ from ctypes import (
+     POINTER,
+ )
+ 
+-_dirname = os.path.dirname(__file__)
+-libh3_path = ('{}/{}'.format(_dirname, 'out/libh3.1.dylib')
++unix_dirname = os.path.join(sys.prefix, 'lib')
++win_dirname = os.path.join(sys.prefix, 'Library/lib')
++
++libh3_path = ('{}/{}'.format(unix_dirname, 'libh3.1.dylib')
+               if platform.system() == 'Darwin' else (
+-              '{}/{}'.format(_dirname, 'out/h3.dll') if platform.system() == 'Windows' else
+-              '{}/{}'.format(_dirname, 'out/libh3.so.1')))
++              '{}/{}'.format(win_dirname, 'h3.dll') if platform.system() == 'Windows' else
++              '{}/{}'.format(unix_dirname, 'libh3.so.1')))
+ 
+ libh3 = cdll.LoadLibrary(libh3_path)
+ 
+diff --git a/setup.py b/setup.py
+index 8e1c220..e273c5d 100644
+--- a/setup.py
++++ b/setup.py
+@@ -1,44 +1,6 @@
+-import os
+-import sys
+-import platform
+-import subprocess
+ from setuptools import setup, find_packages
+-from setuptools.command.build_ext import build_ext
+-from setuptools.dist import Distribution
+-from setuptools.extension import Extension
+-
+-from h3_version import h3_version
+ from binding_version import binding_version
+ 
+-
+-def install_h3(h3_version):
+-    # Recommended by Python docs for determining the 64-bit-ness of the current
+-    # interpreter. Needed for invoking CMake correctly on Windows.
+-    is_64bits = sys.maxsize > 2**32
+-    subprocess.check_call('bash ./.install.sh {} {}'.format(h3_version, is_64bits), shell=True)
+-
+-
+-class CustomBuildExtCommand(build_ext):
+-    """Overloads the run function of the standard `build_ext` command class"""
+-
+-    def run(self):
+-        install_h3(h3_version)
+-
+-
+-# Tested with wheel v0.29.0
+-class BinaryDistribution(Distribution):
+-    def __init__(self, attrs=None):
+-        Distribution.__init__(self, attrs)
+-        # The values used for the name and sources in the Extension below are
+-        # not important, because we override the build_ext command above.
+-        # The normal C extension building logic is never invoked, and is
+-        # replaced with our own custom logic. However, ext_modules cannot be
+-        # empty, because this signals to other parts of distutils that our
+-        # package contains C extensions and thus needs to be built for
+-        # different platforms separately.
+-        self.ext_modules = [Extension('h3c', [])]
+-
+-
+ long_description = open('README.rst').read()
+ 
+ setup(
+@@ -51,15 +13,5 @@ setup(
+     author_email='Niel Hu <hu.niel92@gmail.com>',
+     url='https://github.com/uber/h3-py.git',
+     packages=find_packages(exclude=['tests', 'tests.*']),
+-    install_requires=[],
+-    cmdclass={
+-        'build_ext': CustomBuildExtCommand,
+-    },
+-    package_data={
+-        'h-py':
+-        ['out/*.dylib' if platform.system() == 'Darwin' else (
+-            'out/*.dll' if platform.system() == 'Windows' else
+-            'out/*.so.*')]
+-    },
+-    license='Apache License 2.0',
+-    distclass=BinaryDistribution)
++    install_requires=["h3"],
++    license='Apache License 2.0')
