@@ -14,16 +14,16 @@ source:
 
 build:
   number: 2
-  skip: True  # [win]
+  skip: True  # [win or py27]
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
+    - python
     - pip
-    - python >2.7
     - h3
   run:
-    - python >2.7
+    - python
     - h3
 
 test:
