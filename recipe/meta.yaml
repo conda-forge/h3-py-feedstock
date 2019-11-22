@@ -21,7 +21,6 @@ requirements:
   host:
     - pip
     - python >2.7
-    - h3
   run:
     - python >2.7
     - h3
