@@ -13,7 +13,7 @@ source:
     - load_from_dynamic_libraries.patch
 
 build:
-  number: 2
+  number: 3
   skip: True  # [(win and vc<14) or py27]
   script: {{ PYTHON }} -m pip install . -vv
 
