@@ -14,7 +14,7 @@ source:
 
 build:
   number: 2
-  skip: True  # [win or py27]
+  skip: True  # [(win and vc<14) or py27]
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
