@@ -1,5 +1,5 @@
-About h3-py
-===========
+About h3
+========
 
 Home: https://github.com/uber/h3-py.git
 
@@ -124,27 +124,27 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-h3--py-green.svg)](https://anaconda.org/conda-forge/h3-py) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/h3-py.svg)](https://anaconda.org/conda-forge/h3-py) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/h3-py.svg)](https://anaconda.org/conda-forge/h3-py) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/h3-py.svg)](https://anaconda.org/conda-forge/h3-py) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-h3-green.svg)](https://anaconda.org/conda-forge/h3) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/h3.svg)](https://anaconda.org/conda-forge/h3) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/h3.svg)](https://anaconda.org/conda-forge/h3) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/h3.svg)](https://anaconda.org/conda-forge/h3) |
 
-Installing h3-py
-================
+Installing h3
+=============
 
-Installing `h3-py` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `h3` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 ```
 
-Once the `conda-forge` channel has been enabled, `h3-py` can be installed with:
+Once the `conda-forge` channel has been enabled, `h3` can be installed with:
 
 ```
-conda install h3-py
+conda install h3
 ```
 
-It is possible to list all of the versions of `h3-py` available on your platform with:
+It is possible to list all of the versions of `h3` available on your platform with:
 
 ```
-conda search h3-py --channel conda-forge
+conda search h3 --channel conda-forge
 ```
 
 
@@ -186,17 +186,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating h3-py-feedstock
-========================
+Updating h3-feedstock
+=====================
 
-If you would like to improve the h3-py recipe or build a new
+If you would like to improve the h3 recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/h3-py-feedstock are
+Note that all branches in the conda-forge/h3-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.
