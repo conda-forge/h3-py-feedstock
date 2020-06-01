@@ -1,45 +1,45 @@
 {% set name = "h3" %}
-{% set version = "3.4.3" %}
+{% set version = "3.6.1" %}
 
 package:
-  name: {{ name|lower }}-py
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: a292a5a63bcf535f0137141019f3defd21ad2fbd258dc8de587f921cf2c5b41d
-  patches:
-    # patch to override setup.py and h3.py to load dynamic libraries from conda distribution of H3
-    - load_from_dynamic_libraries.patch
+  sha256: 6cc063403ef8b0c97888ff6131bb7791b15b2fb70954588d3e30f230b1ab03c5
 
 build:
-  number: 4
-  skip: True  # [(win and vc<14) or py27]
-  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+  script: "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
   host:
     - python
     - pip
-    - h3
+    - scikit-build
+    - cython
   run:
     - python
-    - h3
+    - numpy
 
 test:
-  commands:
-    - python -c "from h3 import h3"
+  imports:
+    - h3
 
 about:
   home: https://github.com/uber/h3-py.git
   license: Apache-2.0
   license_family: Apache
-  license_file: LICENSE.txt
+  license_file: LICENSE
   summary: Python bindings for H3, a hierarchical hexagonal geospatial indexing system developed by Uber Technologies
   dev_url: https://github.com/uber/h3-py.git
 
 extra:
   recipe-maintainers:
-    - benhuff
     - oblute
+    - benhuff
     - geoHeil
