@@ -1,5 +1,5 @@
 {% set name = "h3" %}
-{% set version = "3.6.4" %}
+{% set version = "3.7.0" %}
 
 package:
   name: {{ name|lower }}-py
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 416e35d736ef6ec9c1f73b9d4a9d5c696cc2a7561811f8bcfa08c8c4912f2289
+  sha256: cd27fc8ecd9183f93934079b7c986401f499030ff2e2171eace9de462fab561d
 
 build:
   number: 0
