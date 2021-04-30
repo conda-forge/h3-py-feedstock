@@ -10,7 +10,7 @@ source:
   sha256: 3271168dcc7ed3f28301939ae8726003043adf10af8db67e38fcbb0960116154
 
 build:
-  number: 0
+  number: 1
   skip: true  # [python_impl == 'pypy']
   script: {{ PYTHON }} -m pip install . -vv
 
@@ -41,6 +41,7 @@ about:
 
 extra:
   recipe-maintainers:
+    - mxr-conda
     - oblute
     - benhuff
     - geoHeil
