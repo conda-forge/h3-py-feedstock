@@ -134,6 +134,7 @@ Installing `h3-py` from the `conda-forge` channel can be achieved by adding `con
 
 ```
 conda config --add channels conda-forge
+conda config --set channel_priority strict
 ```
 
 Once the `conda-forge` channel has been enabled, `h3-py` can be installed with:
