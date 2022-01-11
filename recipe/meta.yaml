@@ -42,6 +42,5 @@ about:
 extra:
   recipe-maintainers:
     - mxr-conda
-    - oblute
-    - benhuff
+    - bubblyorca
     - geoHeil
