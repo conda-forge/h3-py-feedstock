@@ -10,7 +10,7 @@ source:
   sha256: 75214450b89e5204d77700e01cf2d41a02d7cbfe9b9ca925727c52e18f91072e
 
 build:
-  number: 2
+  number: 3
   skip: true  # [python_impl == 'pypy']
   script: {{ PYTHON }} -m pip install . -vv
 
@@ -18,6 +18,7 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - make                  # [unix]
   host:
     - python
     - pip
