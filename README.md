@@ -1,11 +1,11 @@
-About h3-py
-===========
+About h3-py-feedstock
+=====================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/h3-py-feedstock/blob/main/LICENSE.txt)
 
 Home: https://github.com/uber/h3-py.git
 
 Package license: Apache-2.0
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/h3-py-feedstock/blob/main/LICENSE.txt)
 
 Summary: Python bindings for H3, a hierarchical hexagonal geospatial indexing system developed by Uber Technologies
 
