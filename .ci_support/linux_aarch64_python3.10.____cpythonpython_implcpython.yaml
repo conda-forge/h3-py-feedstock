@@ -3,7 +3,7 @@ BUILD:
 c_compiler:
 - gcc
 c_compiler_version:
-- '11'
+- '12'
 cdt_arch:
 - aarch64
 cdt_name:
@@ -15,9 +15,9 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '11'
+- '12'
 docker_image:
-- quay.io/condaforge/linux-anvil-aarch64
+- quay.io/condaforge/linux-anvil-cos7-x86_64
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -33,3 +33,4 @@ zip_keys:
   - cxx_compiler_version
 - - python
   - python_impl
+  - channel_sources
