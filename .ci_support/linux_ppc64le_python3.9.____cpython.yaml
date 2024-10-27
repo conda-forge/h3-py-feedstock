@@ -24,8 +24,6 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - 3.9.* *_cpython
-python_impl:
-- cpython
 target_platform:
 - linux-ppc64le
 zip_keys:
@@ -33,5 +31,3 @@ zip_keys:
   - cxx_compiler_version
 - - c_stdlib_version
   - cdt_name
-- - python
-  - python_impl
