@@ -1,16 +1,16 @@
 {% set name = "h3" %}
-{% set version = "4.1.1" %}
+{% set version = "4.2.0" %}
 
 package:
   name: {{ name|lower }}-py
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 94b80249a0c6ae1109defcf2eb8604b00e7be6a7eba2e0e4efd4841f8cc6177a
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 46b43f8cdd924ae159f6311775bc6486ffd06872fcd01c3f9e6d83d37a2901ff
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
