@@ -12,3 +12,10 @@ provider:
   linux_aarch64: default
   linux_ppc64le: default
 test: native_and_emulated
+bot:
+    # only automerge on successful version PRs, migrations are not automerged
+    automerge: 'version'
+    # only open PRs if resulting environment is solvable, useful for tightly coupled packages
+    check_solvable: true
+    # inspection: hint-all
+    inspection: update-all
