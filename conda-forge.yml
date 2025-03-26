@@ -14,8 +14,10 @@ provider:
 test: native_and_emulated
 bot:
     # only automerge on successful version PRs, migrations are not automerged
-    automerge: 'version'
+  automerge: 'version'
     # only open PRs if resulting environment is solvable, useful for tightly coupled packages
-    check_solvable: true
+  check_solvable: true
     # inspection: hint-all
-    inspection: update-all
+  inspection: update-all
+conda_install_tool: pixi
+conda_build_tool: rattler-build
