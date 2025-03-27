@@ -1,0 +1,58 @@
+schema_version: 1
+
+context:
+  name: h3
+  version: 4.2.2
+
+package:
+  name: ${{ name|lower }}-py
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: 5cc78d546b5c732f480a842e3e436c393fe37fe59b063fe9cb5589206b7c4c7e
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then: python
+    - if: build_platform != target_platform
+      then: cross-python_${{ target_platform }}
+    - if: build_platform != target_platform
+      then: cython
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ${{ compiler('cxx') }}
+    - if: unix
+      then: make
+    - if: unix
+      then: cmake
+  host:
+    - python
+    - pip
+    - scikit-build-core
+    - cython
+  run:
+    - python
+    - numpy
+
+tests:
+  - python:
+      imports:
+        - h3
+
+about:
+  license: Apache-2.0
+  license_file: LICENSE
+  summary: Python bindings for H3, a hierarchical hexagonal geospatial indexing system developed by Uber Technologies
+  homepage: https://github.com/uber/h3-py.git
+  repository: https://github.com/uber/h3-py.git
+
+extra:
+  recipe-maintainers:
+    - mxr-conda
+    - bubblyorca
+    - geoHeil
