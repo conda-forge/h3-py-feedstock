@@ -1,0 +1,101 @@
+schema_version: 1
+
+context:
+  name: h3
+  version: 4.3.0
+
+package:
+  name: ${{ name|lower }}-py
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: b9d35dfa97e7f4b4c9c9f1564f22a44565694ac1ca96469a08170869e7d0ce0a
+  patches: 0001-fix-cross-compiling-soabi.patch
+
+build:
+  number: 1
+  script:
+    - if: win
+      then:
+        - del %SRC_DIR%\src\h3\api\basic_str\__init__.py
+        - del %SRC_DIR%\src\h3\api\memview_int\__init__.py
+        - del %SRC_DIR%\src\h3\api\numpy_int\__init__.py
+        - copy /y %SRC_DIR%\src\h3\api\basic_int\__init__.py %SRC_DIR%\src\h3\api\basic_str\__init__.py
+        - copy /y %SRC_DIR%\src\h3\api\basic_int\__init__.py %SRC_DIR%\src\h3\api\memview_int\__init__.py
+        - copy /y %SRC_DIR%\src\h3\api\basic_int\__init__.py %SRC_DIR%\src\h3\api\numpy_int\__init__.py
+        - ${{ PYTHON }} -m pip install . -vv
+        - if errorlevel 1 exit 1
+      else:
+        - ${{ PYTHON }} -m pip install . -vv
+      
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then: 
+        - python
+        - cross-python_${{ target_platform }}
+        - cython
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ${{ compiler('cxx') }}
+    - if: unix
+      then: 
+        - make
+        - cmake
+  host:
+    - python
+    - pip
+    - scikit-build-core
+    - cython
+  run:
+    - python
+    - numpy
+
+tests:
+  - python:
+      imports:
+        - h3
+      pip_check: true
+      python_version: ${{ python }}
+  - package_contents:
+      files:
+        - if: win
+          then: 
+            - Lib/site-packages/h3/_cy/cells.*.pyd
+            - Lib/site-packages/h3/_cy/edges.*.pyd
+            - Lib/site-packages/h3/_cy/error_system.*.pyd
+            - Lib/site-packages/h3/_cy/latlng.*.pyd
+            - Lib/site-packages/h3/_cy/to_multipoly.*.pyd
+            - Lib/site-packages/h3/_cy/util.*.pyd
+            - Lib/site-packages/h3/_cy/vertex.*.pyd
+          else:
+            - lib/python*/site-packages/h3/_cy/cells.*.so
+            - lib/python*/site-packages/h3/_cy/edges.*.so
+            - lib/python*/site-packages/h3/_cy/error_system.*.so
+            - lib/python*/site-packages/h3/_cy/latlng.*.so
+            - lib/python*/site-packages/h3/_cy/to_multipoly.*.so
+            - lib/python*/site-packages/h3/_cy/util.*.so
+            - lib/python*/site-packages/h3/_cy/vertex.*.so
+      site_packages:
+        - h3
+        - h3._cy
+        - h3.api
+        - h3.api.basic_int
+        - h3.api.basic_str
+        - h3.api.memview_int
+        - h3.api.numpy_int
+
+about:
+  license: Apache-2.0
+  license_file: LICENSE
+  summary: Python bindings for H3, a hierarchical hexagonal geospatial indexing system developed by Uber Technologies
+  homepage: https://github.com/uber/h3-py.git
+  repository: https://github.com/uber/h3-py.git
+
+extra:
+  recipe-maintainers:
+    - mxr-conda
+    - bubblyorca
+    - geoHeil
