@@ -1,0 +1,77 @@
+From f491e1e1f1652194eb805c2f016f1945d2b1407d Mon Sep 17 00:00:00 2001
+From: Lindsey Gray <lindsey.gray@gmail.com>
+Date: Mon, 30 Jun 2025 17:18:31 -0500
+Subject: [PATCH 2/2] allow usage of pre-installed h3
+
+---
+ CMakeLists.txt            | 20 +++++++++++++-------
+ src/h3/_cy/CMakeLists.txt | 11 +++++++++++
+ 2 files changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 40ce38e..e5400f0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -30,16 +30,22 @@ turn_off(ENABLE_LIBFUZZER)
+ turn_off(ENABLE_LINTING)
+ 
+ # Build the core library as static
+-set(BUILD_SHARED_LIBS OFF)
+-add_subdirectory(src/h3lib)
++if(H3PY_USE_INSTALLED_H3)
++  find_package(h3 REQUIRED)
++else()
++  set(BUILD_SHARED_LIBS OFF)
++  add_subdirectory(src/h3lib)
++endif()
+ 
+ # Build the rest (other than the core library dependency) as shared
+ set(BUILD_SHARED_LIBS ON)
+ add_subdirectory(src/h3)
+ 
+ # Include built h3api.h for Cython API
+-install(
+-    FILES
+-        "${CMAKE_CURRENT_BINARY_DIR}/src/h3lib/src/h3lib/include/h3api.h"
+-    DESTINATION
+-        ${SKBUILD_PROJECT_NAME}/_cy)
++if(NOT H3PY_USE_INSTALLED_H3)
++  install(
++      FILES
++          "${CMAKE_CURRENT_BINARY_DIR}/src/h3lib/src/h3lib/include/h3api.h"
++      DESTINATION
++          ${SKBUILD_PROJECT_NAME}/_cy)
++endif()
+\ No newline at end of file
+diff --git a/src/h3/_cy/CMakeLists.txt b/src/h3/_cy/CMakeLists.txt
+index 32f59a8..0cccb6b 100644
+--- a/src/h3/_cy/CMakeLists.txt
++++ b/src/h3/_cy/CMakeLists.txt
+@@ -4,6 +4,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+ 
+ set(Python_SOABI ${SKBUILD_SOABI})
+ 
++if(WIN32)
++  link_directories($ENV{LIBRARY_LIB})
++endif()
++
+ macro(add_cython_file filename)
+     add_custom_command(
+       OUTPUT "${filename}.c"
+@@ -18,6 +22,13 @@ macro(add_cython_file filename)
+ 
+     set_property(TARGET ${filename} PROPERTY C_STANDARD 99)
+     target_link_libraries(${filename} PRIVATE h3)
++    if(H3PY_USE_INSTALLED_H3)
++      if(WIN32)
++        target_include_directories(${filename} PRIVATE "$ENV{LIBRARY_INC}/h3")
++      else()
++        target_include_directories(${filename} PRIVATE "$ENV{PREFIX}/include/h3")
++      endif()
++    endif()
+     install(TARGETS ${filename} LIBRARY DESTINATION ${SKBUILD_PROJECT_NAME}/_cy)
+ endmacro()
+ 
+-- 
+2.39.5 (Apple Git-154)
+
