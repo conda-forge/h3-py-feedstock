@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: h3
-  version: 4.3.0
+  version: "4.3.1"
 
 package:
   name: ${{ name|lower }}-py
@@ -10,13 +10,13 @@ package:
 
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
-  sha256: b9d35dfa97e7f4b4c9c9f1564f22a44565694ac1ca96469a08170869e7d0ce0a
+  sha256: ecac67318538ecef1d893c019946d4cce58c1eef9349090b887ebfe8a59d4f31
   patches:
     - 0001-fix-cross-compiling-soabi.patch
     - 0002-allow-usage-of-pre-installed-h3.patch
 
 build:
-  number: 1
+  number: 0
   script:
     - if: win
       then:
@@ -30,12 +30,12 @@ build:
         - if errorlevel 1 exit 1
       else:
         - ${{ PYTHON }} -m pip install . -vv -C"cmake.define.H3PY_USE_INSTALLED_H3"="ON"
-      
+
 
 requirements:
   build:
     - if: build_platform != target_platform
-      then: 
+      then:
         - python
         - cross-python_${{ target_platform }}
         - cython
@@ -43,7 +43,7 @@ requirements:
     - ${{ stdlib('c') }}
     - ${{ compiler('cxx') }}
     - if: unix
-      then: 
+      then:
         - make
         - cmake
   host:
@@ -66,7 +66,7 @@ tests:
   - package_contents:
       files:
         - if: win
-          then: 
+          then:
             - Lib/site-packages/h3/_cy/cells.*.pyd
             - Lib/site-packages/h3/_cy/edges.*.pyd
             - Lib/site-packages/h3/_cy/error_system.*.pyd
