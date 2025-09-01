@@ -16,7 +16,7 @@ source:
     - 0002-allow-usage-of-pre-installed-h3.patch
 
 build:
-  number: 1
+  number: 2
   script:
     - if: win
       then:
@@ -30,12 +30,12 @@ build:
         - if errorlevel 1 exit 1
       else:
         - ${{ PYTHON }} -m pip install . -vv -C"cmake.define.H3PY_USE_INSTALLED_H3"="ON"
-      
+
 
 requirements:
   build:
     - if: build_platform != target_platform
-      then: 
+      then:
         - python
         - cross-python_${{ target_platform }}
         - cython
@@ -43,7 +43,7 @@ requirements:
     - ${{ stdlib('c') }}
     - ${{ compiler('cxx') }}
     - if: unix
-      then: 
+      then:
         - make
         - cmake
   host:
@@ -66,7 +66,7 @@ tests:
   - package_contents:
       files:
         - if: win
-          then: 
+          then:
             - Lib/site-packages/h3/_cy/cells.*.pyd
             - Lib/site-packages/h3/_cy/edges.*.pyd
             - Lib/site-packages/h3/_cy/error_system.*.pyd
