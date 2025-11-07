@@ -16,7 +16,7 @@ source:
     - 0002-allow-usage-of-pre-installed-h3.patch
 
 build:
-  number: 2
+  number: 3
   script:
     - if: win
       then:
