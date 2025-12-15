@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: h3
-  version: 4.3.0
+  version: "4.4.1"
 
 package:
   name: ${{ name|lower }}-py
@@ -10,13 +10,13 @@ package:
 
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
-  sha256: b9d35dfa97e7f4b4c9c9f1564f22a44565694ac1ca96469a08170869e7d0ce0a
+  sha256: 6eb4f714af92c772d8499052d74db77009837dd072992cbc6a8f9a513a6115b5
   patches:
     - 0001-fix-cross-compiling-soabi.patch
     - 0002-allow-usage-of-pre-installed-h3.patch
 
 build:
-  number: 3
+  number: 0
   script:
     - if: win
       then:
