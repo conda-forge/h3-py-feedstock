@@ -19,10 +19,10 @@ if [[ "$arch" == "x86_64" ]]; then
 fi
 sed -i.bak "s/platforms = .*/platforms = [\"osx-${arch}\"]/" pixi.toml
 echo "Creating environment"
-pixi install
-pixi list
+pixi install --environment build
+pixi list --environment build
 echo "Activating environment"
-eval "$(pixi shell-hook)"
+eval "$(pixi shell-hook --environment build)"
 mv pixi.toml.bak pixi.toml
 ( endgroup "Provisioning base env with pixi" ) 2> /dev/null
 
@@ -53,6 +53,25 @@ if [[ "${sha:-}" == "" ]]; then
   sha=$(git rev-parse HEAD)
 fi
 
+if [[ "${OSX_SDK_DIR:-}" == "" ]]; then
+  if [[ "${CI:-}" == "" ]]; then
+    echo "Please set OSX_SDK_DIR to a directory where SDKs can be downloaded to. Aborting"
+    exit 1
+  else
+    export OSX_SDK_DIR=/opt/conda-sdks
+    /usr/bin/sudo mkdir -p "${OSX_SDK_DIR}"
+    /usr/bin/sudo chown "${USER}" "${OSX_SDK_DIR}"
+  fi
+else
+  if tmpf=$(mktemp "$OSX_SDK_DIR"/tmp.XXXXXXXX 2>/dev/null); then
+      rm -f "$tmpf"
+      echo "OSX_SDK_DIR is writeable without sudo, continuing"
+  else
+      echo "User-provided OSX_SDK_DIR is not writeable for current user! Aborting"
+      exit 1
+  fi
+fi
+
 echo -e "\n\nRunning the build setup script."
 source run_conda_forge_build_setup
 
@@ -65,7 +84,16 @@ if [[ -f LICENSE.txt ]]; then
 fi
 
 if [[ "${BUILD_WITH_CONDA_DEBUG:-0}" == 1 ]]; then
-    echo "rattler-build does not currently support debug mode"
+    export CONDA_BLD_PATH="${CONDA_BLD_PATH:-${FEEDSTOCK_ROOT:-$PWD}/build_artifacts}"
+    rattler-build debug setup \
+        --recipe ./recipe \
+        -m ./.ci_support/${CONFIG}.yaml \
+        --build-platform "${BUILD_PLATFORM}" \
+        --target-platform "${HOST_PLATFORM}" \
+        ${BUILD_OUTPUT_ID:+--output-name "${BUILD_OUTPUT_ID}"} \
+        ${EXTRA_CB_OPTIONS:-}
+
+    rattler-build debug shell
 else
 
     if [[ "${HOST_PLATFORM}" != "${BUILD_PLATFORM}" ]]; then
@@ -75,6 +103,7 @@ else
     rattler-build build --recipe ./recipe \
         -m ./.ci_support/${CONFIG}.yaml \
         ${EXTRA_CB_OPTIONS:-} \
+        --build-platform "${BUILD_PLATFORM}" \
         --target-platform "${HOST_PLATFORM}" \
         --extra-meta flow_run_id="$flow_run_id" \
         --extra-meta remote_url="$remote_url" \
